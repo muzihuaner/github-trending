@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faCodeFork, faArrowTrendUp } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faCodeFork, faArrowTrendUp, faCodePullRequest, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const LANGUAGES = [
   'All', 'JavaScript', 'Python', 'Java', 'TypeScript', 'C++',
@@ -9,7 +9,7 @@ const LANGUAGES = [
 ]
 
 const PERIODS = [
-  { value: 'past_24_hours', label: '过去一天' },
+  { value: 'past_24_hours', label: '过去24h' },
   { value: 'past_week', label: '过去一周' },
   { value: 'past_month', label: '过去一个月' },
   { value: 'past_3_months', label: '过去三个月' },
@@ -38,7 +38,7 @@ function formatNumber(num) {
 }
 
 export default function TrendingRepos() {
-  const [selectedPeriod, setSelectedPeriod] = useState('past_month')
+  const [selectedPeriod, setSelectedPeriod] = useState('past_24_hours')
   const [selectedLanguage, setSelectedLanguage] = useState('All')
   const [repos, setRepos] = useState([])
   const [loading, setLoading] = useState(false)
@@ -147,6 +147,27 @@ export default function TrendingRepos() {
                   )}
                 </div>
                 {repo.description && <p className="repo-desc">{repo.description}</p>}
+                {repo.contributor_logins && (
+                  <div className="repo-contributors">
+                    <FontAwesomeIcon icon={faUser} className="contrib-icon" />
+                    {repo.contributor_logins.split(',').map((login) => (
+                      <a
+                        key={login}
+                        href={`https://github.com/${login}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="contributor-avatar"
+                        title={login}
+                      >
+                        <img
+                          src={`https://github.com/${login}.png?size=40`}
+                          alt={login}
+                          loading="lazy"
+                        />
+                      </a>
+                    ))}
+                  </div>
+                )}
                 <div className="repo-meta">
                   <span className="meta-item">
                     <FontAwesomeIcon icon={faStar} className="meta-icon star" />
@@ -156,6 +177,12 @@ export default function TrendingRepos() {
                     <FontAwesomeIcon icon={faCodeFork} className="meta-icon" />
                     {formatNumber(repo.forks ?? repo.forks_count ?? 0)}
                   </span>
+                  {repo.pull_requests && Number(repo.pull_requests) > 0 && (
+                    <span className="meta-item">
+                      <FontAwesomeIcon icon={faCodePullRequest} className="meta-icon" />
+                      {formatNumber(repo.pull_requests)}
+                    </span>
+                  )}
                   <span className="meta-item trend">
                     <FontAwesomeIcon icon={faArrowTrendUp} className="meta-icon trend-icon" />
                     +{formatNumber(repo.total_score ?? 0)}

@@ -248,6 +248,40 @@
   overflow: hidden;
 }
 
+.repo-contributors {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.contrib-icon {
+  font-size: 0.6875rem;
+  color: var(--text-tertiary);
+  margin-right: 2px;
+}
+
+.contributor-avatar {
+  display: inline-flex;
+  transition: transform 0.15s ease;
+}
+
+.contributor-avatar:hover {
+  transform: translateY(-1px);
+}
+
+.contributor-avatar img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--card-bg);
+  object-fit: cover;
+}
+
+.contributor-avatar + .contributor-avatar img {
+  margin-left: -6px;
+}
+
 .repo-meta {
   display: flex;
   align-items: center;
