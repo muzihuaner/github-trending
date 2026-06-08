@@ -38,4 +38,4 @@ npm run preview
 
 ## License
 
-© 2026 [HuanGeTech](https://github.com/muzihuaner/github-trending-website)
+MIT
