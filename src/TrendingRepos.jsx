@@ -118,7 +118,7 @@ export default function TrendingRepos() {
         {loading ? (
           <div className="loading">
             <div className="spinner" />
-            <p>Loading trending repositories...</p>
+            <p>正在加载热门仓库...</p>
           </div>
         ) : error ? (
           <div className="error-state">
